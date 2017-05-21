@@ -57,6 +57,14 @@ void MainWindow::OnStartButton()
     {
         rectScene->StartMove();
     }
+    else if(circuScene)
+    {
+        circuScene->StartMove();
+    }
+    else if(tirScene)
+    {
+        tirScene->StartMove();
+    }
 }
 
 void MainWindow::OnPauseButton()
@@ -65,13 +73,32 @@ void MainWindow::OnPauseButton()
     {
         rectScene->StopMove();
     }
+    else if(circuScene)
+    {
+        circuScene->StopMove();
+    }
+    else if(tirScene)
+    {
+        tirScene->StopMove();
+    }
 }
 
 void MainWindow::OnStopButton()
 {
     if( rectScene )
     {
-        rectScene->StopMove();
+        delete rectScene;
+        rectScene = NULL;
+    }
+    else if(circuScene)
+    {
+        delete circuScene;
+        rectScene = NULL;
+    }
+    else if(tirScene)
+    {
+        delete tirScene;
+        tirScene = NULL;
     }
 }
 
@@ -81,6 +108,14 @@ void MainWindow::OnQuickButton()
     {
         rectScene->AddSteps();
     }
+    else if(circuScene)
+    {
+        circuScene->AddSteps();
+    }
+    else if(tirScene)
+    {
+        tirScene->AddSteps();
+    }
 }
 
 void MainWindow::OnSlowButton()
@@ -88,6 +123,14 @@ void MainWindow::OnSlowButton()
     if( rectScene )
     {
         rectScene->ReduceSteps();
+    }
+    else if(circuScene)
+    {
+        circuScene->ReduceSteps();
+    }
+    else if(tirScene)
+    {
+        tirScene->ReduceSteps();
     }
 }
 
@@ -116,7 +159,7 @@ void MainWindow::OnTirangleButton()
 
     if( NULL == tirScene )
     {
-        tirScene = new sceneTriangle;
+        tirScene = new SceneTriangle;
         ui->graphicsView->setScene(tirScene);
     }
 }
@@ -131,7 +174,7 @@ void MainWindow::OnCircularButton()
 
     if(NULL == circuScene )
     {
-        circuScene = new sceneCircular;
+        circuScene = new SceneCircular;
         ui->graphicsView->setScene(circuScene);
     }
 }

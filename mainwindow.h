@@ -56,8 +56,8 @@ protected:
 
 private:
     SceneRect* rectScene;       //带有矩形的场景
-    sceneCircular* circuScene;  //带有圆形的场景
-    sceneTriangle* tirScene;    //带有三角形的场景
+    SceneCircular* circuScene;  //带有圆形的场景
+    SceneTriangle* tirScene;    //带有三角形的场景
 };
 
 #endif // MAINWINDOW_H

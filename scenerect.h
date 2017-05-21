@@ -30,6 +30,11 @@ public:
     void StopMove();
 
     /*
+     * @bref    设置步进
+     */
+    void SetStep( qreal x_stpe, qreal y_step );
+
+    /*
      * @bref    增加移动步进
      */
     void AddSteps();
@@ -40,32 +45,34 @@ public:
 
     /*
      * @bref    设置场景大小
+     * @note    暂时无用
      */
-    void SetSceneSize( const QSize& size );
+    void SetSceneSize(const QSizeF &size );
 
 protected:
     void timerEvent(QTimerEvent*);
 
 private:
-    QGraphicsRectItem* rectItem;
+    QGraphicsRectItem* rectItem;    //矩形图形项
 
     QGraphicsLineItem* lineLeft;    //场景左侧线
-    QGraphicsLineItem* lineRight;
-    QGraphicsLineItem* lineTop;
-    QGraphicsLineItem* lineBottom;
+    QGraphicsLineItem* lineRight;   //场景右侧线
+    QGraphicsLineItem* lineTop;     //场景上部线
+    QGraphicsLineItem* lineBottom;  //场景下部线
 
-    int timerID;
-    QPointF sceneLeftTopPos;
-    QSizeF sceneSize;
+    QPointF sceneLeftTopPos;    //场景坐标
+    QSizeF sceneSize;           //场景大小
 
-    int updateTime;
+    int timerID;        //计时器ID
+    int updateTime;     //计时器更新频率
 
-    qreal xStep;
+    qreal xStep;    //步进
     qreal yStep;
 
-    QPointF itemLeftPos;
-    QSizeF itemSize;
+    QPointF itemLeftPos;    //item位置
+    QSizeF itemSize;        //item大小
 
+    bool isMoving;  //正在移动
 };
 
 #endif // SCENERECT_H
