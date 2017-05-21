@@ -9,6 +9,8 @@
 #include <QGraphicsEllipseItem>
 #include <QGraphicsPolygonItem>
 #include <QTimerEvent>
+#include <QTimer>
+#include <QResizeEvent>
 
 #include "scenerect.h"
 #include "scenecircular.h"
@@ -50,15 +52,12 @@ public slots:
     void OnTirangleButton();
 
 protected:
-    void timerEvent(QTimerEvent*);
+    void resizeEvent(QResizeEvent *);
 
 private:
-    sceneRect* rectScene;       //带有矩形的场景
+    SceneRect* rectScene;       //带有矩形的场景
     sceneCircular* circuScene;  //带有圆形的场景
     sceneTriangle* tirScene;    //带有三角形的场景
-
-    QTimer *timer;
-
 };
 
 #endif // MAINWINDOW_H
