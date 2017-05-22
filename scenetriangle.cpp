@@ -3,7 +3,7 @@
 SceneTriangle::SceneTriangle():
     sceneLeftTopPos(QPointF(-100, -100)), sceneSize(QSizeF(300, 200)),updateTime(100),
     itemTopPos(QPoint(0, 0)), itemBottomPos(QPoint(0, 50)), itemLeftPos(QPoint(-50, 25)),
-    xStep(5), yStep(4)
+    xStep(1), yStep(1), isMoving(false)
 {
     setSceneRect(QRectF(sceneLeftTopPos, sceneSize));   //场景大小
 
@@ -58,20 +58,24 @@ SceneTriangle::~SceneTriangle()
 
 void SceneTriangle::AddSteps()
 {
-    xStep = (xStep < 45)? xStep + 1.0: xStep;
-    yStep = (yStep < 35)? yStep + 1.0: yStep;
+    killTimer(timerID);
 
-    qDebug()<<"x step:"<<xStep;
-    qDebug()<<"y step:"<<yStep;
+    updateTime = updateTime > 5? updateTime - 5: updateTime;
+
+    timerID = startTimer(updateTime);
+
+    qDebug()<<"Update Time:"<<updateTime;
 }
 
 void SceneTriangle::ReduceSteps()
 {
-    xStep = xStep > -45? xStep - 1: xStep;
-    yStep = yStep > -35? yStep - 1: yStep;
+    killTimer(timerID);
 
-    qDebug()<<"x step:"<<xStep;
-    qDebug()<<"y step:"<<yStep;
+    updateTime = updateTime <500? updateTime + 5: updateTime;
+
+    timerID = startTimer(updateTime);
+
+    qDebug()<<"Update Time:"<<updateTime;
 }
 
 void SceneTriangle::StartMove()

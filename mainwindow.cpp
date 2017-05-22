@@ -89,16 +89,19 @@ void MainWindow::OnStopButton()
     {
         delete rectScene;
         rectScene = NULL;
+        OnRectButton();
     }
     else if(circuScene)
     {
         delete circuScene;
-        rectScene = NULL;
+        circuScene = NULL;
+        OnCircularButton();
     }
     else if(tirScene)
     {
         delete tirScene;
         tirScene = NULL;
+        OnTirangleButton();
     }
 }
 

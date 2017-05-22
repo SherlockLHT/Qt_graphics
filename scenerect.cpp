@@ -3,7 +3,7 @@
 SceneRect::SceneRect():
     sceneLeftTopPos(QPointF(-100, -100)), sceneSize(QSizeF(300, 200)),
     itemLeftPos(QPointF(0, 0)), itemSize(QSizeF(50, 50)),updateTime(100),
-    xStep(5), yStep(4)
+    xStep(1), yStep(1), isMoving(false)
 {
     setSceneRect(QRectF(sceneLeftTopPos, sceneSize));   //场景大小
 
@@ -54,27 +54,28 @@ void SceneRect::SetStep(qreal x_step, qreal y_step)
 {
     xStep = x_step;
     yStep = y_step;
-
-    qDebug()<<"x step:"<<xStep;
-    qDebug()<<"y step:"<<yStep;
 }
 
 void SceneRect::AddSteps()
 {
-    //xStep += 5;
-    //yStep += 5;
-    xStep = (xStep < 45)? xStep + 1.0: xStep;
-    yStep = (yStep < 35)? yStep + 1.0: yStep;
-    qDebug()<<"x step:"<<xStep;
-    qDebug()<<"y step:"<<yStep;
+    killTimer(timerID);
+
+    updateTime = updateTime > 5? updateTime - 5: updateTime;
+
+    timerID = startTimer(updateTime);
+
+    qDebug()<<"Update Time:"<<updateTime;
 }
 
 void SceneRect::ReduceSteps()
 {
-    xStep = xStep > -45? xStep - 1: xStep;
-    yStep = yStep > -35? yStep - 1: yStep;
-    qDebug()<<"x step:"<<xStep;
-    qDebug()<<"y step:"<<yStep;
+    killTimer(timerID);
+
+    updateTime = updateTime <500? updateTime + 5: updateTime;
+
+    timerID = startTimer(updateTime);
+
+    qDebug()<<"Update Time:"<<updateTime;
 }
 
 void SceneRect::StartMove()
@@ -97,17 +98,19 @@ void SceneRect::StopMove()
 
 void SceneRect::SetSceneSize(const QSizeF& size)
 {
-    //setSceneRect(QRectF(sceneLeftTopPos,QSizeF(size.width(), size.height())));
+
 }
 
 void SceneRect::timerEvent(QTimerEvent *)
 {
     rectItem->moveBy(xStep, yStep);   //相对移动
 
+    //左右边碰撞
     if(rectItem->collidesWithItem(lineLeft) || rectItem->collidesWithItem(lineRight))
     {
         xStep = -xStep;
     }
+    //上下边碰撞
     if(rectItem->collidesWithItem(lineTop) || rectItem->collidesWithItem(lineBottom))
     {
         yStep = -yStep;

@@ -3,7 +3,7 @@
 SceneCircular::SceneCircular():
     sceneLeftTopPos(QPointF(-100, -100)), sceneSize(QSizeF(300, 200)),
     itemLeftPos(QPointF(0, 0)), itemSize(QSizeF(50, 50)),updateTime(100),
-    xStep(5), yStep(4), isMoving(false)
+    xStep(1), yStep(1), isMoving(false)
 {
     setSceneRect(QRectF(sceneLeftTopPos, sceneSize));   //场景大小
 
@@ -52,20 +52,24 @@ SceneCircular::~SceneCircular()
 
 void SceneCircular::AddSteps()
 {
-    xStep = xStep < 45? xStep + 1: xStep;
-    yStep = yStep < 35? yStep + 1: yStep;
+    killTimer(timerID);
 
-    qDebug()<<"x step:"<<xStep;
-    qDebug()<<"y step:"<<yStep;
+    updateTime = updateTime > 5? updateTime - 5: updateTime;
+
+    timerID = startTimer(updateTime);
+
+    qDebug()<<"Update Time:"<<updateTime;
 }
 
 void SceneCircular::ReduceSteps()
 {
-    xStep = xStep > -45? xStep - 1: xStep;
-    yStep = yStep > -35? yStep - 1: yStep;
+    killTimer(timerID);
 
-    qDebug()<<"x step:"<<xStep;
-    qDebug()<<"y step:"<<yStep;
+    updateTime = updateTime <500? updateTime + 5: updateTime;
+
+    timerID = startTimer(updateTime);
+
+    qDebug()<<"Update Time:"<<updateTime;
 }
 
 void SceneCircular::StartMove()
