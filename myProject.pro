@@ -14,13 +14,9 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    scenerect.cpp \
-    scenecircular.cpp \
-    scenetriangle.cpp
+    myscene.cpp
 
 HEADERS  += mainwindow.h \
-    scenerect.h \
-    scenecircular.h \
-    scenetriangle.h
+    myscene.h
 
 FORMS    += mainwindow.ui

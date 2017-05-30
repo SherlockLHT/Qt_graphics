@@ -4,14 +4,11 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow),
-    circuScene(NULL), rectScene(NULL), tirScene(NULL)
+    ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
     Init();
-
-    OnRectButton();
 }
 
 MainWindow::~MainWindow()
@@ -38,154 +35,65 @@ void MainWindow::Init()
     connect(ui->pushButton_circu, SIGNAL(clicked(bool)), this, SLOT(OnCircularButton()));
 
     connect(ui->pushButton_tria, SIGNAL(clicked(bool)), this, SLOT(OnTirangleButton()));
+
+    rectScene = new MyScene(RectItem);
+    circularScene = new MyScene(CircularItem);
+    triangleScene = new MyScene(TriangleItem);
+
+    currentScene = rectScene;
+    ui->graphicsView->setScene(currentScene);
 }
 
 void MainWindow::UnInit()
 {
-    delete circuScene;
-    delete tirScene;
-    delete rectScene;
+    rectScene->DeleteItems();
+    circularScene->DeleteItems();
+    triangleScene->DeleteItems();
 
-    circuScene  = NULL;
-    rectScene   = NULL;
-    tirScene    = NULL;
+    delete rectScene;
+    delete circularScene;
+    delete triangleScene;
 }
 
 void MainWindow::OnStartButton()
 {
-    if( rectScene )
-    {
-        rectScene->StartMove();
-    }
-    else if(circuScene)
-    {
-        circuScene->StartMove();
-    }
-    else if(tirScene)
-    {
-        tirScene->StartMove();
-    }
+    currentScene->StartMove();
 }
 
 void MainWindow::OnPauseButton()
 {
-    if( rectScene )
-    {
-        rectScene->StopMove();
-    }
-    else if(circuScene)
-    {
-        circuScene->StopMove();
-    }
-    else if(tirScene)
-    {
-        tirScene->StopMove();
-    }
+    currentScene->PauseMove();
 }
 
 void MainWindow::OnStopButton()
 {
-    if( rectScene )
-    {
-        delete rectScene;
-        rectScene = NULL;
-        OnRectButton();
-    }
-    else if(circuScene)
-    {
-        delete circuScene;
-        circuScene = NULL;
-        OnCircularButton();
-    }
-    else if(tirScene)
-    {
-        delete tirScene;
-        tirScene = NULL;
-        OnTirangleButton();
-    }
+    currentScene->StopMove();
 }
 
 void MainWindow::OnQuickButton()
 {
-    if( rectScene )
-    {
-        rectScene->AddSteps();
-    }
-    else if(circuScene)
-    {
-        circuScene->AddSteps();
-    }
-    else if(tirScene)
-    {
-        tirScene->AddSteps();
-    }
+    currentScene->AddSpeed();
 }
 
 void MainWindow::OnSlowButton()
 {
-    if( rectScene )
-    {
-        rectScene->ReduceSteps();
-    }
-    else if(circuScene)
-    {
-        circuScene->ReduceSteps();
-    }
-    else if(tirScene)
-    {
-        tirScene->ReduceSteps();
-    }
+    currentScene->ReduceSpeed();
 }
 
 void MainWindow::OnRectButton()
 {
-    delete circuScene;
-    circuScene = NULL;
-
-    delete tirScene;
-    tirScene = NULL;
-
-    if( NULL == rectScene )
-    {
-        rectScene = new SceneRect;
-        ui->graphicsView->setScene(rectScene);
-    }
+    currentScene = rectScene;
+    ui->graphicsView->setScene(currentScene);
 }
 
 void MainWindow::OnTirangleButton()
 {
-    delete circuScene;
-    circuScene = NULL;
-
-    delete rectScene;
-    rectScene = NULL;
-
-    if( NULL == tirScene )
-    {
-        tirScene = new SceneTriangle;
-        ui->graphicsView->setScene(tirScene);
-    }
+    currentScene = triangleScene;
+    ui->graphicsView->setScene(currentScene);
 }
 
 void MainWindow::OnCircularButton()
 {
-    delete rectScene;
-    rectScene = NULL;
-
-    delete tirScene;
-    tirScene = NULL;
-
-    if(NULL == circuScene )
-    {
-        circuScene = new SceneCircular;
-        ui->graphicsView->setScene(circuScene);
-    }
-}
-
-void MainWindow::resizeEvent(QResizeEvent*)
-{
-    if( rectScene )
-    {
-        rectScene->SetSceneSize(ui->graphicsView->size());
-    }
+    currentScene = circularScene;
+    ui->graphicsView->setScene(currentScene);
 }

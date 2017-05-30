@@ -12,9 +12,8 @@
 #include <QTimer>
 #include <QResizeEvent>
 
-#include "scenerect.h"
-#include "scenecircular.h"
-#include "scenetriangle.h"
+#include "myscene.h"
+
 
 namespace Ui {
 class MainWindow;
@@ -51,13 +50,13 @@ public slots:
 
     void OnTirangleButton();
 
-protected:
-    void resizeEvent(QResizeEvent *);
-
 private:
-    SceneRect* rectScene;       //带有矩形的场景
-    SceneCircular* circuScene;  //带有圆形的场景
-    SceneTriangle* tirScene;    //带有三角形的场景
+    MyScene* rectScene;     //矩形项场景
+    MyScene* circularScene; //圆形场景
+    MyScene* triangleScene; //三角形场景
+
+    MyScene* currentScene;  //当前显示的场景
+
 };
 
 #endif // MAINWINDOW_H
